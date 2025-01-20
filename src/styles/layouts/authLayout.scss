@@ -1,0 +1,19 @@
+@use "sass:map";
+@use '../variables/colors';
+
+.background {
+  background: linear-gradient(to bottom left, map.get(colors.$colors, "pionlex-primary-400"), map.get(colors.$colors, "pionlex-secondary-400"));
+
+  .translucent-layer-1 {
+    clip-path: polygon(27% 100%, 0% 100%, 0% 64%);
+  }
+
+  .translucent-layer-2 {
+    clip-path: polygon(27% 100%, 0% 100%, 0% 0%, 3% 0%);
+  }
+
+  .translucent-layer-3 {
+    clip-path: polygon(27% 100%, 0% 100%, 0% 0%, 55% 0%);
+  }
+  
+}
