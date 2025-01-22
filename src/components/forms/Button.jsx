@@ -18,7 +18,7 @@ export default function Button({
     <button 
       type={type}
       onClick={onClick}
-      disabled={disabled}
+      disabled={disabled || isLoading}
       className={`
         flex items-center justify-center
         py-3 px-8 rounded-lg w-fit

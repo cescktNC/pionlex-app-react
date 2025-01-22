@@ -2,7 +2,8 @@ export default function Input({
   type = "text", 
   className, 
   name, 
-  placeholder 
+  placeholder, 
+  dataRef
 }) {
   return (
     <input 
@@ -20,6 +21,7 @@ export default function Input({
       placeholder={placeholder} 
       required 
       autoComplete="off" 
+      ref={dataRef}
     />
   );
 }

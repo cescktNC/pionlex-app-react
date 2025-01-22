@@ -33,7 +33,7 @@ export default function Register() {
             className="dark" 
           />
 
-          <form id="login-form" className="w-3/5 flex flex-col items-center" method="POST" onSubmit={handleSubmit} autoComplete="off" noValidate>
+          <form className="w-3/5 flex flex-col items-center" onSubmit={handleSubmit} autoComplete="off" noValidate>
             <Input 
               className="dark"
               name="officeName"
@@ -90,10 +90,11 @@ export default function Register() {
               </nav>
             </div>
             <Button
-              type={!isLoading ? "submit" : "button"}
-              text={!isLoading ? "REGISTRAR" : "Registrando..."}
-              className={!isLoading ? "" : "cursor-not-allowed"}
+              type={isLoading ? undefined : "submit"}
+              text={isLoading ? "Registrando..." : "REGISTRAR"}
+              className={isLoading ? "cursor-not-allowed" : ""}
               isLoading={isLoading}
+              disabled={isLoading}
             />
           </form>
         </div>
