@@ -1,4 +1,4 @@
-import { createRef, useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Title from '../components/forms/Title';
 import Input from '../components/forms/Input';
@@ -7,14 +7,15 @@ import Button from '../components/forms/Button';
 import cardImage from '/img/card-image-top-register.jpg';
 
 export default function Register() {
-  const officeNameRef = createRef();
-  const cifRef = createRef();
-  const invitationCodeRef = createRef();
-  const nameRef = createRef();
-  const lastnameRef = createRef();
-  const emailRef = createRef();
-  const passwordRef = createRef();
-  const passwordConfirmationRef = createRef();
+  const formRef = useRef(null);
+  const officeNameRef = useRef(null);
+  const cifRef = useRef(null);
+  const invitationCodeRef = useRef(null);
+  const nameRef = useRef(null);
+  const lastnameRef = useRef(null);
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+  const passwordConfirmationRef = useRef(null);
 
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +27,7 @@ export default function Register() {
     }
   } , [errors]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
     setIsLoading(true);
 
@@ -34,6 +35,13 @@ export default function Register() {
       setIsLoading(false);
     }, 2000);
   }
+
+  // Limpiar los campos
+  const handleReset = () => {
+    if (formRef.current) {
+      formRef.current.reset();
+    }
+  };
   
   return (
     <div className="relative z-50 w-full min-w-95-72 transition-transform duration-700">
@@ -47,7 +55,7 @@ export default function Register() {
             DESPACHO
           </Title>
 
-          <form className="w-3/5 flex flex-col items-start" onSubmit={handleSubmit} autoComplete="off" noValidate>
+          <form ref={formRef} className="w-3/5 flex flex-col items-start" onSubmit={handleSubmit} autoComplete="off" noValidate>
             <Input 
               className="dark mb-6"
               name="officeName"
@@ -111,13 +119,18 @@ export default function Register() {
                 </Link>
               </nav>
             </div>
-            <div className="w-full flex justify-center">
+            <div className="w-full flex justify-between">
+              <Button
+                variant='secondary'
+                onClick={handleReset}>
+                  Limpiar Formulario
+              </Button>
               <Button
                 type={isLoading ? undefined : "submit"}
                 variant={isLoading ? "loading" : undefined}
                 isLoading={isLoading}
                 disabled={isLoading}>
-                  {isLoading ? "Registrando..." : "REGISTRAR"}
+                  {isLoading ? "Guardando..." : "Crear Despacho"}
               </Button>
             </div>
           </form>

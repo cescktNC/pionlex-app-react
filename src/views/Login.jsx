@@ -1,4 +1,4 @@
-import { createRef, useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useValidation } from "../hooks/useValidation";
 import { useAuth } from "../hooks/useAuth";
 import { Link } from 'react-router-dom';
@@ -11,8 +11,8 @@ import { validateLoginForm } from "../utils/validateForm";
 import cardImage from '/img/card-image-top-login.jpg';
 
 export default function Login() {
-  const emailRef = createRef();
-  const passwordRef = createRef();
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
   
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
