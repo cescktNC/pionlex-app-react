@@ -30,52 +30,50 @@ export default function Login() {
     }
   } , [errors]);
 
+  // Inicia sesión de un usuario
   const handleSubmit = async e => {
-    e.preventDefault();
+    e.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
 
     // Reiniciar estado de errores y activar isLoading
     setErrors({});
     setIsLoading(true);
 
+    // Construcción de los datos de usuario
     const user = {
       email: emailRef.current.value,
       password: passwordRef.current.value
     };
 
+    console.log(user);
+
+    // Validación del formulario
     if (validate(user, setErrors)) {
-      try {
-        await login(user, setErrors);
-      } catch (error) {
-        setErrors(error?.response?.data?.errors);
-      }
+      login(user, setErrors);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center z-50 w-min-95-72 transition-transform duration-700">
+    <div className="relative z-50 w-full min-w-95-72 transition-transform duration-700">
       <div>
         <img 
           src={cardImage}
           alt="Pionlex Logo"
-          className="card-img-top"
         />
         <div className="flex flex-col items-center bg-dark-gray-400 p-14">
-        {/* <div className="flex flex-col items-center bg-white p-14 h-[38rem]"> */}
-          <Title 
-            text="LOGIN"
-            className="dark" 
-          />
+          <Title className="dark pb-10">
+            LOGIN
+          </Title>
 
-          <form className="w-3/5 flex flex-col items-center" onSubmit={handleSubmit} autoComplete="off" noValidate>
+          <form className="w-3/5 flex flex-col items-start" onSubmit={handleSubmit} autoComplete="off" noValidate>
 
             <Input 
               type="email"
-              className="dark"
+              className="dark mb-6"
               name="email"
               placeholder="USUARIO"
               dataRef={emailRef}
             />
-            {errors.email ? <Alert key={'email'}>{errors.email}</Alert> : null}
+            {errors.email ? <Alert key={'email'} className='pl-2 mb-6 mt-[-1rem]'>{errors.email}</Alert> : null}
 
             <Input 
               type="password"
@@ -84,14 +82,14 @@ export default function Login() {
               placeholder="CONTRASEÑA"
               dataRef={passwordRef}
             />
-            {errors.password ? <Alert key={'password'}>{errors.password}</Alert> : null}
+            {errors.password ? <Alert key={'password'} className='pl-2 mb-3 mt-[-.5rem]'>{errors.password}</Alert> : null}
 
             <div className="flex justify-between mb-10 w-full">
               <CheckBox 
                 name="savePassword" 
-                text="Guardar contraseña" 
-                isDark={true}
-              />
+                className="dark">
+                  Guardar contraseña
+              </CheckBox>
               <nav className='font-medium text-xl text-light-gray-600 cursor-pointer hover:underline hover:underline-offset-1'>
                 <Link to={''}>
                   ¿Has olvidado tu contraseña?
@@ -99,13 +97,15 @@ export default function Login() {
               </nav>
             </div>
 
-            <Button
-              type={isLoading ? undefined : "submit"}
-              text={isLoading ? "Entrando..." : "ENTRAR"}
-              className={isLoading ? "cursor-not-allowed" : ""}
-              isLoading={isLoading}
-              disabled={isLoading}
-            />
+            <div className="w-full flex justify-center">
+              <Button
+                type={isLoading ? undefined : "submit"}
+                variant={isLoading ? "loading" : undefined}
+                disabled={isLoading}
+                isLoading={isLoading}>
+                  {isLoading ? "Entrando..." : "ENTRAR"}
+              </Button>
+            </div>
           </form>
         </div>
       </div>

@@ -4,6 +4,7 @@ import Layout from './pages/Layout';
 import MainContent from './views/MainContent';
 import Login from './views/Login';
 import Register from './views/Register';
+import VerificationNotification from './views/VerificationNotification';
 
 const router = createBrowserRouter([
   {
@@ -21,12 +22,16 @@ const router = createBrowserRouter([
     element: <AuthLayout />,
     children: [
       {
-        path: '/auth/login', // Esta vista se renderiza cuando se accede a la ruta '/auth/login'
+        path: 'login', // Esta vista se renderiza cuando se accede a la ruta '/auth/login'
         element: <Login />
       },
       {
-        path: '/auth/register', // Esta vista se renderiza cuando se accede a la ruta '/auth/register'
+        path: 'register', // Esta vista se renderiza cuando se accede a la ruta '/auth/register'
         element: <Register />
+      },
+      {
+        path: 'verification-notification', // Esta vista se renderiza cuando se accede a la ruta '/auth/verification-notification'
+        element: <VerificationNotification />
       }
     ]
   }

@@ -1,3 +1,24 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-pionlex-primary-400: #00DBDE;
+  --color-pionlex-primary-600: #009B9D;
+  --color-pionlex-secondary-400: #FC00FF;
+  --color-pionlex-secondary-600: #9E009F;
+  --color-dark-gray-400: #2C3E50;
+  --color-dark-gray-600: #232D37;
+  --color-light-gray-400: #F8F9FC;
+  --color-light-gray-600: #8391A2;
+}
+
+@layer utilities {
+  .min-w-95-72 {
+    width: min(95%, 72.5rem);
+  }
+
+  .min-w-95-93 {
+    width: min(95%, 93.5rem);
+  }
+}
+
+@custom-variant dark (&:where(.dark, .dark *));

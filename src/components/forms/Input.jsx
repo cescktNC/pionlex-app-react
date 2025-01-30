@@ -1,15 +1,17 @@
+import PropTypes from 'prop-types';
+
 export default function Input({ 
-  type = "text", 
-  className, 
+  type = 'text', 
+  className = '', 
   name, 
-  placeholder, 
+  placeholder = '', 
   dataRef
 }) {
   return (
     <input 
       type={type} 
       className={`
-        block w-full p-4 mb-6
+        block w-full p-4
         text-2xl font-medium text-dark-gray-600 dark:text-light-gray-600
         border-2 border-solid border-light-gray-600 rounded-lg 
         bg-white dark:bg-dark-gray-600
@@ -25,3 +27,14 @@ export default function Input({
     />
   );
 }
+
+Input.propTypes = {
+  type: PropTypes.string,
+  className: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  dataRef: PropTypes.oneOfType([
+    PropTypes.func, 
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+  ]).isRequired,
+};

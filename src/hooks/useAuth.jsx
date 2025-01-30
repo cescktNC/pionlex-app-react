@@ -5,14 +5,14 @@ import instanceAxios from "../config/axios";
 
 export const useAuth = ({ middleware, url }) => {
 
-  const token = localStorage.getItem('AUTH_TOKEN');
   const navigate = useNavigate();
 
   // SWR hace peticiones automáticas a la url, para mantener sincronizada la información del usuario en caché con el servidor.
   // - Busca en caché antes de hacer la petición (mejor rendimiento).
   // - Si la petición es exitosa, guarda los datos en `user`. Si falla, los almacena en `error`.
   // - `mutate()` permite actualizar o limpiar estos datos manualmente en caché.
-  const { data: user, error, mutate } = useSWR( '/api/user', () => {
+  const { data: user, error, mutate } = useSWR( '/api/v1/user', () => {
+    const token = localStorage.getItem('AUTH_TOKEN');
     return instanceAxios('/api/v1/user', {
       headers: {
         Authorization: `Bearer ${token}`
@@ -20,6 +20,7 @@ export const useAuth = ({ middleware, url }) => {
     })
     .then( res => res.data)
     .catch( error => {
+      console.error("Error al obtener usuario:", error?.response?.data?.message);
       throw Error(error?.response?.data?.errors);
     });
   });
@@ -28,12 +29,14 @@ export const useAuth = ({ middleware, url }) => {
     try {
       const {data} = await instanceAxios.post('/api/v1/login', user);
       localStorage.setItem('AUTH_TOKEN', data.token);
-      // setErrors([]);
-      setErrors({});
+
+      if (!data.user.verified) {
+        navigate('/auth/verification-notification');
+      }
+
       await mutate(); // Refresca los datos del usuario tras iniciar sesión, haciendo la petición a /api/user y obtener la información más reciente del usuario.
     } catch (error) {
-      // setErrors(Object.values(error.response.data.errors));
-      setErrors(error.response.data.errors);
+      setErrors(error?.response?.data?.errors ?? {});
     }
   };
 
@@ -42,6 +45,7 @@ export const useAuth = ({ middleware, url }) => {
   };
 
   const logout = async () => {
+    const token = localStorage.getItem('AUTH_TOKEN');
     try {
       await instanceAxios.post('/api/v1/logout', null, {
         headers: {
@@ -52,6 +56,34 @@ export const useAuth = ({ middleware, url }) => {
       await mutate(undefined); // Elimina al usuario de la caché y fuerza una actualización para que la aplicación lo detecte como deslogeado.
     } catch (error) {
       throw Error(error?.response?.data?.errors);
+    }
+  };
+
+  const resendVerificationEmail = async (setErrors, setVerificationSent, setIsTimeOut, setUnauthenticated) => {
+    const token = localStorage.getItem('AUTH_TOKEN');
+    try {
+      await instanceAxios.post('/api/v1/email/verification-notification', null, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setVerificationSent(true);
+      setErrors({ emailNotVerified: "Correo de verificación reenviado. Revisa tu bandeja de entrada." });
+    } catch (error) {
+      setVerificationSent(false);
+      if (error.response?.status === 429) { // Muchas peticiones
+        setIsTimeOut(true);
+        setErrors({ emailNotVerified: "Has realizado demasiadas peticiones. Inténtalo de nuevo más tarde." });
+      } else if (error.response?.status === 401) { // No autenticado (No hay token)
+        setErrors({ emailNotVerified: "Tu sesión ha expirado. Inicia sesión para continuar y vuelve a reenviar la verificación." });
+        setTimeout(() => {
+          setUnauthenticated(true);
+          setErrors({ emailNotVerified: "Redirigiendo a la página de Login..." });
+        }, 5000);
+        setTimeout(() => navigate('/auth/login'), 7000);
+      } else {
+        setErrors({ emailNotVerified: "Error inesperado. Inténtalo más tarde." });
+      }
     }
   };
 
@@ -70,6 +102,7 @@ export const useAuth = ({ middleware, url }) => {
     login,
     register,
     logout,
+    resendVerificationEmail,
     user,
     error
   };

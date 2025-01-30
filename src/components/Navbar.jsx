@@ -8,10 +8,9 @@ export default function Navbar() {
   return (
     <nav>
       Navbar
-      <Button
-        text="Cerrar sesión"
-        onClick={ logout }
-      />
+      <Button onClick={ logout }>
+        Cerrar sesión
+      </Button>
     </nav>
   )
 }
