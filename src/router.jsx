@@ -6,6 +6,7 @@ import Login from './views/Login';
 import Register from './views/Register';
 import VerificationNotification from './views/VerificationNotification';
 import ForgotPassword from './views/ForgotPassword';
+import PasswordReset from './views/PasswordReset';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: 'forgot-password', // Esta vista se renderiza cuando se accede a la ruta '/auth/forgot-password'
         element: <ForgotPassword />
+      },
+      {
+        path: 'password-reset/:token', // Esta vista se renderiza cuando se accede a la ruta '/auth/password-reset'
+        element: <PasswordReset />
       },
       {
         path: 'verification-notification', // Esta vista se renderiza cuando se accede a la ruta '/auth/verification-notification'

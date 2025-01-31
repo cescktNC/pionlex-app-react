@@ -54,7 +54,7 @@ export default function VerificationNotification() {
   };
 
   return (
-    <div className="min-h-screen flex items-center z-50 min-w-95-93 transition-transform duration-700">
+    <div className="relative z-50 w-full min-w-95-93 transition-transform duration-700">
       <div className='w-full flex'>
         <img 
           src={cardImage}

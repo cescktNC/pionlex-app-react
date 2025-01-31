@@ -67,6 +67,23 @@ export const useAuth = ({ middleware, url }) => {
     }
   };
 
+  const passwordReset = async (user, setErrors) => {
+    try {
+      const {data} = await instanceAxios.post('/api/v1/reset-password', user);
+      if (data.result) {
+        setErrors({success: data.status});
+        setTimeout(() => {
+          setErrors({redirecting: 'Redirigiendo a la página de Login...'})
+          setTimeout(() => navigate('/auth/login'), 5000);
+        }, 5000);
+      } else {
+        setErrors({password: data.status});
+      }
+    } catch (error) {
+      setErrors({ password: 'Error inesperado. Inténtalo más tarde.' });
+    }
+  }
+
   const logout = async () => {
     const token = localStorage.getItem('AUTH_TOKEN');
     try {
@@ -126,6 +143,7 @@ export const useAuth = ({ middleware, url }) => {
     login,
     register,
     forgotPassword,
+    passwordReset,
     logout,
     resendVerificationEmail,
     user,

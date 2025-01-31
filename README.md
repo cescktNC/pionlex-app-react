@@ -60,4 +60,13 @@ En próximas versiones, se planea agregar:
 ### :pushpin: Pàgina de Registro
 ![Registro](/public/screenshots/register.jpg)
 
+### :pushpin: Pàgina de Registro
+![ForgotPassword](/public/screenshots/forgotPassword.jpg)
+
+### :pushpin: Pàgina de Registro
+![PasswordReset](/public/screenshots/passwordReset.jpg)
+
+### :pushpin: Pàgina de Registro
+![VerificationNotification](/public/screenshots/verificationNotification.jpg)
+
 added by Francesc

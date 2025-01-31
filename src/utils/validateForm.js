@@ -33,7 +33,15 @@ const validatePassword = password => {
   return null;
 };
 
-// Validación del formulario de login
+const validatePasswordConfirmation = (password, passwordConfirmation) => {
+  if ( password !== passwordConfirmation ) {
+    return 'Las contraseñas no coinciden';
+  }
+
+  return null;
+};
+
+// Validación del formulario de login (login form)
 export const validateLoginForm = values => {
   let errors = {};
 
@@ -46,11 +54,30 @@ export const validateLoginForm = values => {
   return errors;
 };
 
+// Validación del formulario de contraseña olvidada (forgot password form)
 export const validateForgotPasswordForm = values => {
   let errors = {};
 
   const emailError = validateEmail(values.email);
   if (emailError) errors.email = emailError;
+
+  return errors;
+}
+
+// Validación del formulario de restablecimiento de contraseña (password reset form)
+export const validatePasswordResetForm = values => {
+  let errors = {};
+
+  const passwordError = validatePassword(values.password);
+  if (passwordError) errors.password = passwordError;
+
+  const passwordConfirmationError = validatePassword(values.password_confirmation);
+  if (passwordConfirmationError) errors.passwordConfirmation = passwordConfirmationError;
+
+  if (Object.keys(errors).length === 0) {
+    const passwordMatchError = validatePasswordConfirmation(values.password, values.password_confirmation);
+    if (passwordMatchError) errors.password = passwordMatchError;
+  }
 
   return errors;
 }
