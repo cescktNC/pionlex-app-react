@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 
 export default function Button({
@@ -9,15 +10,16 @@ export default function Button({
   disabled = false, 
   onClick,
   isLoading = false,
+  to
 }) {
   const variants = {
     primary: 'text-dark-gray-600 bg-pionlex-primary-400 hover:bg-pionlex-primary-600',
     secondary: 'text-dark-gray-600 bg-slate-400 hover:bg-slate-500',
     warning: 'text-dark-gray-600 bg-yellow-400 hover:bg-yellow-600',
-    loading: 'bg-pionlex-primary-400 hover:bg-pionlex-primary-600 text-black cursor-not-allowed opacity-50',
+    loading: 'bg-pionlex-primary-400 hover:bg-pionlex-primary-600 text-black hover:cursor-not-allowed opacity-50',
   };
 
-  return (
+  const buttonContent = (
     <button 
       type={type}
       onClick={onClick}
@@ -32,7 +34,9 @@ export default function Button({
         { isLoading && <CircularProgress className='mr-3' size='1.6rem' sx={{ color: '#000' }} /> }
       { children }
     </button>
-  )
+  );
+
+  return to ? <Link to={to}>{buttonContent}</Link> : buttonContent;
 }
 
 Button.propTypes = {
@@ -43,4 +47,5 @@ Button.propTypes = {
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
   isLoading: PropTypes.bool,
+  to: PropTypes.string,
 };

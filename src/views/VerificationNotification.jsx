@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from "../hooks/useAuth";
 import Title from '../components/forms/Title';
-import Alert from "../components/forms/Alert";
+import Alert from '../components/forms/Alert';
 import Button from '../components/forms/Button';
 import cardImage from '/img/card-image-left.jpg';
-import '../styles/components/VerificationNotification.scss';
 
 export default function VerificationNotification() {
   const [errors, setErrors] = useState({});
@@ -61,7 +60,7 @@ export default function VerificationNotification() {
           src={cardImage}
           alt="Pionlex Logo"
         />
-        <div className="w-full flex flex-col items-center justify-between bg-dark-gray-400 px-24 py-24">
+        <div className="w-full flex flex-col items-center justify-between bg-dark-gray-400 px-8 py-24">
           <div>
             <Title className="dark pb-20 title">
               VERIFICAR CUENTA

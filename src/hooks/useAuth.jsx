@@ -44,6 +44,29 @@ export const useAuth = ({ middleware, url }) => {
     console.log('register');
   };
 
+  const forgotPassword = async (user, setErrors, setIsTimeOut) => {
+    try {
+      const {data} = await instanceAxios.post('/api/v1/forgot-password', user);
+      
+      if (data.result) {
+        setErrors({success: data.status})
+        setTimeout(() => {
+          setErrors({redirecting: 'Redirigiendo a la página de Login...'})
+          setTimeout(() => navigate('/auth/login'), 5000);
+        }, 7000);
+      } else {
+        if (Array.isArray(data.status)) {
+          setErrors({email: data.status[0]});
+        } else {
+          setIsTimeOut(true);
+          setErrors({email: data.status});
+        }
+      }
+    } catch (error) {
+      setErrors({ email: 'Error inesperado. Inténtalo más tarde.' });
+    }
+  };
+
   const logout = async () => {
     const token = localStorage.getItem('AUTH_TOKEN');
     try {
@@ -55,6 +78,7 @@ export const useAuth = ({ middleware, url }) => {
       localStorage.removeItem('AUTH_TOKEN');
       await mutate(undefined); // Elimina al usuario de la caché y fuerza una actualización para que la aplicación lo detecte como deslogeado.
     } catch (error) {
+      console.error(error?.response?.data?.errors);
       throw Error(error?.response?.data?.errors);
     }
   };
@@ -101,6 +125,7 @@ export const useAuth = ({ middleware, url }) => {
   return {
     login,
     register,
+    forgotPassword,
     logout,
     resendVerificationEmail,
     user,

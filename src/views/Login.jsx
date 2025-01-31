@@ -4,7 +4,6 @@ import { useAuth } from "../hooks/useAuth";
 import { Link } from 'react-router-dom';
 import Title from '../components/forms/Title';
 import Input from '../components/forms/Input';
-import CheckBox from '../components/forms/CheckBox';
 import Button from '../components/forms/Button';
 import Alert from "../components/forms/Alert";
 import { validateLoginForm } from "../utils/validateForm";
@@ -44,8 +43,6 @@ export default function Login() {
       password: passwordRef.current.value
     };
 
-    console.log(user);
-
     // Validación del formulario
     if (validate(user, setErrors)) {
       login(user, setErrors);
@@ -84,18 +81,11 @@ export default function Login() {
             />
             {errors.password ? <Alert key={'password'} className='pl-2 mb-3 mt-[-.5rem]'>{errors.password}</Alert> : null}
 
-            <div className="flex justify-between mb-10 w-full">
-              <CheckBox 
-                name="savePassword" 
-                className="dark">
-                  Guardar contraseña
-              </CheckBox>
-              <nav className='font-medium text-xl text-light-gray-600 cursor-pointer hover:underline hover:underline-offset-1'>
-                <Link to={''}>
-                  ¿Has olvidado tu contraseña?
-                </Link>
-              </nav>
-            </div>
+            <nav className='font-medium text-xl text-light-gray-600 cursor-pointer hover:underline hover:underline-offset-1 mb-10 w-full'> 
+              <Link to={'/auth/forgot-password'}>
+                ¿Has olvidado tu contraseña?
+              </Link>
+            </nav>
 
             <div className="w-full flex justify-center">
               <Button
@@ -103,7 +93,7 @@ export default function Login() {
                 variant={isLoading ? "loading" : undefined}
                 disabled={isLoading}
                 isLoading={isLoading}>
-                  {isLoading ? "Entrando..." : "ENTRAR"}
+                  {isLoading ? "Entrando..." : "Entrar"}
               </Button>
             </div>
           </form>

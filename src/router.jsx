@@ -5,6 +5,7 @@ import MainContent from './views/MainContent';
 import Login from './views/Login';
 import Register from './views/Register';
 import VerificationNotification from './views/VerificationNotification';
+import ForgotPassword from './views/ForgotPassword';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: 'register', // Esta vista se renderiza cuando se accede a la ruta '/auth/register'
         element: <Register />
+      },
+      {
+        path: 'forgot-password', // Esta vista se renderiza cuando se accede a la ruta '/auth/forgot-password'
+        element: <ForgotPassword />
       },
       {
         path: 'verification-notification', // Esta vista se renderiza cuando se accede a la ruta '/auth/verification-notification'

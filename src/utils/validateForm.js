@@ -45,3 +45,12 @@ export const validateLoginForm = values => {
 
   return errors;
 };
+
+export const validateForgotPasswordForm = values => {
+  let errors = {};
+
+  const emailError = validateEmail(values.email);
+  if (emailError) errors.email = emailError;
+
+  return errors;
+}
