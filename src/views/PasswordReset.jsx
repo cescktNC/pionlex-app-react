@@ -6,18 +6,23 @@ import Title from '../components/forms/Title';
 import Input from '../components/forms/Input';
 import Alert from '../components/forms/Alert';
 import Button from '../components/forms/Button';
+import { translateBackendErrors } from '../utils/errorTranslator';
 import { validatePasswordResetForm } from '../utils/validateForm';
 import cardImage from '/img/card-image-left.jpg';
 
 export default function PasswordReset() {
-  const [errors, setErrors] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
-  const [searchParams] = useSearchParams();
+  const [messages, setMessages] = useState({}); // Estado de mensajes
+  const [isLoading, setIsLoading] = useState(false); // Estado de enviando datos
+  const [isTimeOut, setIsTimeOut] = useState(false); // Estado de tiempo de espera
+  const [countdown, setCountdown] = useState(0); // Contador de tiempo de espera
+  const [isDisabled, setIsDisabled] = useState(false); // Estado de deshabilitación de botón
+  const [searchParams] = useSearchParams(); // Parámetros de la URL
 
-  const passwordRef = useRef(null);
-  const passwordConfirmationRef = useRef(null);
-  const { token } = useParams();
-  const email = searchParams.get("email");
+  const formRef = useRef(null); // Referencia al formulario
+  const passwordRef = useRef(null); // Referencia al input de contraseña
+  const passwordConfirmationRef = useRef(null); // Referencia al input de confirmación de contraseña
+  const { token } = useParams(); // Parámetro de la URL (token)
+  const email = searchParams.get("email"); // Parámetro de la URL (email)
 
   const { validate } = useValidation(validatePasswordResetForm);
   const { passwordReset } = useAuth({
@@ -25,19 +30,50 @@ export default function PasswordReset() {
     url: '/'
   });
 
-  // Cuando hay errores, detener el estado de carga
+  // Cuando hay mensajes, detener el estado de carga
   useEffect(() => {
-    if (Object.keys(errors).length > 0) {
+    if (Object.keys(messages).length > 0) {
       setIsLoading(false);
+      
+      messages.error ? setIsDisabled(true) : setIsDisabled(false);
+
+      if (messages.success) {
+        formRef.current.reset();
+      }
+
+      if (messages.errors) {
+        setMessages(translateBackendErrors(messages.errors));
+      }
     }
-  } , [errors]);
+  } , [messages]);
+
+  useEffect( () => {
+    if (isTimeOut) {
+      let seconds = 60;
+      setCountdown(seconds);
+      const interval = setInterval( () => {
+        seconds--;
+        setCountdown(seconds);
+        
+        if (seconds <= 0) {
+          clearInterval(interval);
+          setIsTimeOut(false);
+          setIsDisabled(false);
+          setMessages({ retry: "Ya puedes volver a enviar la petición."});
+        }
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [isTimeOut]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     // Reiniciar estado de errores y activar isLoading
-    setErrors({});
+    setMessages({});
     setIsLoading(true);
+    setIsDisabled(true);
 
     // Construcción de los datos de usuario
     const user = {
@@ -48,8 +84,8 @@ export default function PasswordReset() {
     };
 
     // Validación del formulario
-    if (validate(user, setErrors)) {
-      passwordReset(user, setErrors);
+    if (validate(user, setMessages)) {
+      passwordReset(user, setMessages, setIsTimeOut);
     }
   }
 
@@ -60,16 +96,24 @@ export default function PasswordReset() {
           src={cardImage}
           alt="Pionlex Logo"
         />
-        <div className='flex flex-col items-center justify-between gap-24 bg-dark-gray-400 p-14'>
-          <div>
-            <Title className="dark title">
-              RESTABLECER CONTRASEÑA
-            </Title>
-            <p className='text-white text-2xl font-semibold text-center mt-6'>Introduzca la nueva contraseña:</p>
-          </div>
+        
+        <div className='w-full flex justify-center bg-dark-gray-400 py-16'>
+          
+          <div className="flex flex-col justify-between">
 
-          <form className="w-5/6 h-3/4 flex flex-col items-start justify-between" onSubmit={handleSubmit} autoComplete="off" noValidate>
-            <div className='w-full'>
+            <div>
+              <Title className="dark">RESTABLECER CONTRASEÑA</Title>
+              <p className='text-white text-2xl font-semibold text-center mt-6'>Introduzca la nueva contraseña:</p>
+            </div>
+
+            <div className='h-full flex flex-col justify-evenly'>
+              {messages.error ? <Alert key={'error'} variant='errorBg' className='text-center'>{messages.error}</Alert> : null}
+              {messages.retry ? <Alert key={'retry'} variant='successBg' className='text-center'>{messages.retry}</Alert> : null}
+              {messages.success ? <Alert key={'success'} variant='successBg' className='text-center'>{messages.success}</Alert> : null}
+              {isTimeOut ? <Alert key={'countdown'} variant="successBg" className="text-center">Tiempo restante: {countdown} s</Alert> : null}
+            </div>
+
+            <form ref={formRef} onSubmit={handleSubmit} autoComplete="off" noValidate>
               <Input 
                 type="password"
                 className="dark mb-6" 
@@ -77,7 +121,7 @@ export default function PasswordReset() {
                 placeholder="Contraseña"
                 dataRef={passwordRef}
               />
-              {errors.password ? <Alert key={'password'} className='pl-2 mb-3 mt-[-1rem]'>{errors.password}</Alert> : null}
+              {messages.password ? <Alert key={'password'} className='pl-2 mb-3 mt-[-1rem]'>{messages.password}</Alert> : null}
 
               <Input 
                 type="password"
@@ -86,20 +130,19 @@ export default function PasswordReset() {
                 placeholder="Repetir Contraseña"
                 dataRef={passwordConfirmationRef}
               />
-              {errors.passwordConfirmation ? <Alert key={'passwordConfirmation'} className='pl-2 mt-2'>{errors.passwordConfirmation}</Alert> : null}
-              {errors.success ? <Alert key={'success'} variant='success' className='pl-2 mt-2'>{errors.success}</Alert> : null}
-              {errors.redirecting ? <Alert key={'redirecting'} variant='success' className='pl-2 mt-3 animate-bounce'>{errors.redirecting}</Alert> : null}
-            </div>
-            
-            <div className='w-full flex justify-center'>
-              <Button
-                type={isLoading ? undefined : "submit"}
-                variant={isLoading ? "loading" : undefined}
-                isLoading={isLoading}>
-                  {isLoading ? "Guardando..." : "Guardar"}
-              </Button>
-            </div>
-          </form>
+              {messages.password_confirmation ? <Alert key={'password_confirmation'} className='pl-2 mt-2'>{messages.password_confirmation}</Alert> : null}
+              
+              <div className='w-full flex justify-center mt-6'>
+                <Button
+                  type={isLoading ? undefined : "submit"}
+                  loading={isLoading}
+                  disabled={isDisabled}>
+                    {isLoading ? "Guardando..." : "Guardar"}
+                </Button>
+              </div>
+            </form>
+
+          </div>
         </div>
       </div>
     </div>

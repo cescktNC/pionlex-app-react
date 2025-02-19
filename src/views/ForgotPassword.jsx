@@ -1,19 +1,26 @@
 import { useState, useEffect, useRef } from 'react';
 import { useValidation } from "../hooks/useValidation";
 import { useAuth } from "../hooks/useAuth";
+import { useLocation } from 'react-router-dom';
 import Title from '../components/forms/Title';
 import Input from '../components/forms/Input';
 import Alert from '../components/forms/Alert';
 import Button from '../components/forms/Button';
+import { translateBackendErrors } from '../utils/errorTranslator';
 import { validateForgotPasswordForm } from '../utils/validateForm';
 import cardImage from '/img/card-image-left.jpg';
 
 export default function ForgotPassword() {
-  const [errors, setErrors] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
-  const [isTimeOut, setIsTimeOut] = useState(false);
-  const [countdown, setCountdown] = useState(0);
+  const location = useLocation();
+  const message = location.state?.message ? { forgotPasswordRequired: location.state.message } : {}; // Mostrar mensaje de error si se ha redirigido desde otra página
 
+  const [messages, setMessages] = useState(message); // Estado de mensajes
+  const [isLoading, setIsLoading] = useState(false); // Estado de enviando datos
+  const [isTimeOut, setIsTimeOut] = useState(false); // Estado de tiempo de espera
+  const [countdown, setCountdown] = useState(0); // Contador de tiempo de espera
+  const [isDisabled, setIsDisabled] = useState(false); // Estado de deshabilitación de botón
+
+  const formRef = useRef(null);
   const emailRef = useRef(null);
 
   const { validate } = useValidation(validateForgotPasswordForm);
@@ -22,12 +29,22 @@ export default function ForgotPassword() {
     url: '/'
   });
 
-  // Cuando hay errores, detener el estado de carga
+  // Cuando hay mensajes, detener el estado de carga
   useEffect(() => {
-    if (Object.keys(errors).length > 0) {
+    if (Object.keys(messages).length > 0) {
       setIsLoading(false);
+
+      messages.error ? setIsDisabled(true) : setIsDisabled(false);
+
+      if (messages.success) {
+        formRef.current.reset();
+      }
+
+      if (messages.errors) {
+        setMessages(translateBackendErrors(messages.errors));
+      }
     }
-  } , [errors]);
+  } , [messages]);
 
   useEffect( () => {
     if (isTimeOut) {
@@ -40,7 +57,8 @@ export default function ForgotPassword() {
         if (seconds <= 0) {
           clearInterval(interval);
           setIsTimeOut(false);
-          setErrors({ success: "Ya puedes volver a enviar la petición."});
+          setIsDisabled(false);
+          setMessages({ retry: "Ya puedes volver a enviar la petición."});
         }
       }, 1000);
 
@@ -52,17 +70,18 @@ export default function ForgotPassword() {
     event.preventDefault();
 
     // Reiniciar estado de errores y activar isLoading
-    setErrors({});
+    setMessages({});
     setIsLoading(true);
+    setIsDisabled(true);
 
     // Construcción de los datos de usuario
     const user = {
-      email: emailRef.current.value,
+      email: emailRef.current.value.trim().toLowerCase(),
     };
 
     // Validación del formulario
-    if (validate(user, setErrors)) {
-      forgotPassword(user, setErrors, setIsTimeOut);
+    if (validate(user, setMessages)) {
+      forgotPassword(user, setMessages, setIsTimeOut);
     }
   }
 
@@ -73,18 +92,24 @@ export default function ForgotPassword() {
           src={cardImage}
           alt="Pionlex Logo"
         />
-        <div className='flex flex-col items-center justify-between bg-dark-gray-400 px-14 py-20'>
-          <div>
-            <Title className="dark title">
-              RECUPERAR CONTRASEÑA
-            </Title>
-            <p className='text-white text-2xl font-semibold text-center mt-6'>Introduzca la dirección de correo electrónico:</p>
-          </div>
+        <div className='w-full flex justify-center bg-dark-gray-400 py-24 px-20'>
+          <div className="flex flex-col justify-between">
 
-          {isTimeOut ? <Alert key={'countdown'} variant="successBg" className="text-center">Tiempo restante: {countdown} s</Alert> : null}
+            <div>
+              <Title className="dark">RECUPERAR CONTRASEÑA</Title>
+              <p className='text-white text-2xl font-semibold text-center mt-6'>Introduzca la dirección de correo electrónico:</p>
+            </div>
+
+            <div className='h-full flex flex-col justify-evenly'>
+              {messages.email ? <Alert key={'email'} variant='errorBg' className='text-center'>{messages.email}</Alert> : null}
+              {messages.error ? <Alert key={'error'} variant='errorBg' className='text-center'>{messages.error}</Alert> : null}
+              {messages.retry ? <Alert key={'retry'} variant='successBg' className='text-center'>{messages.retry}</Alert> : null}
+              {messages.success ? <Alert key={'success'} variant='successBg' className='text-center'>{messages.success}</Alert> : null}
+              {messages.forgotPasswordRequired ? <Alert key={'forgotPasswordRequired'} variant='errorBg' className='text-center'>{messages.forgotPasswordRequired}</Alert> : null}
+              {isTimeOut ? <Alert key={'countdown'} variant="successBg" className="text-center">Tiempo restante: {countdown} s</Alert> : null}
+            </div>
           
-          <form className="w-5/6 h-1/2 flex flex-col items-start justify-between" onSubmit={handleSubmit} autoComplete="off" noValidate>
-            <div className='w-full'>
+            <form ref={formRef} onSubmit={handleSubmit} autoComplete="off" noValidate>
               <Input 
                 type="email"
                 className="dark"
@@ -92,26 +117,23 @@ export default function ForgotPassword() {
                 placeholder="Email"
                 dataRef={emailRef}
               />
-              {errors.email ? <Alert key={'email'} className='pl-2 mt-2'>{errors.email}</Alert> : null}
-              {errors.success ? <Alert key={'success'} variant='success' className='pl-2 mt-2'>{errors.success}</Alert> : null}
-              {errors.redirecting ? <Alert key={'redirecting'} variant='success' className='pl-2 mt-3 animate-bounce'>{errors.redirecting}</Alert> : null}
-            </div>
-            
-            <div className='w-full flex items-center justify-center gap-10'>
-              <Button
-                variant='secondary'
-                to='/auth/login'>
-                  Volver
-              </Button>
-              <Button
-                type={isLoading ? undefined : "submit"}
-                variant={isLoading || isTimeOut ? "loading" : undefined}
-                isLoading={isLoading}
-                disabled={isTimeOut}>
-                  {isLoading ? "Enviando..." : "Enviar"}
-              </Button>
-            </div>
-          </form>
+              
+              <div className='w-full flex items-center justify-center gap-10 mt-6'>
+                <Button
+                  variant='secondary'
+                  to='/auth/login'>
+                    Volver
+                </Button>
+                <Button
+                  type={isLoading ? undefined : "submit"}
+                  loading={isLoading}
+                  disabled={isDisabled}>
+                    {isLoading ? "Enviando..." : "Enviar"}
+                </Button>
+              </div>
+            </form>
+
+          </div>
         </div>
       </div>
     </div>

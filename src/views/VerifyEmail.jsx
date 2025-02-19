@@ -1,31 +1,36 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useParams, useSearchParams, useLocation } from 'react-router-dom';
 import { useAuth } from "../hooks/useAuth";
 import Title from '../components/forms/Title';
 import Alert from '../components/forms/Alert';
 import Button from '../components/forms/Button';
 import cardImage from '/img/card-image-left.jpg';
 
-export default function VerificationNotification() {
-  const location = useLocation();
-  const message = location.state?.message ?? "Tu correo electrónico no ha sido verificado. Revisa tu bandeja de entrada.";
-
-  const [messages, setMessages] = useState({notVerified: message}); // Estado de mensajes
+export default function ForgotPassword() {
+  const [messages, setMessages] = useState({waiting: "Estamos verificando tu correo electrónico..."}); // Estado de mensajes
+  const [isDisabled, setIsDisabled] = useState(true); // Estado de deshabilitación de botón
   const [isLoading, setIsLoading] = useState(false); // Estado de enviando datos
   const [isTimeOut, setIsTimeOut] = useState(false); // Estado de tiempo de espera
   const [countdown, setCountdown] = useState(0); // Contador de tiempo de espera
-  const [isDisabled, setIsDisabled] = useState(false); // Estado de deshabilitación de botón
 
-  const { resendVerificationEmail } = useAuth({
+  const { id, hash } = useParams(); // Parámetros de la URL (id, hash)
+  
+  // Parámetros de la URL (expires, signature)
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const expires = location.state?.params?.expires ?? searchParams.get("expires"); // Parámetro expires de la URL;
+  const signature = location.state?.params?.signature ?? searchParams.get("signature"); // Parámetro signature de la URL;
+
+  const { sendVerifyEmail } = useAuth({
     middleware: 'guest',
     url: '/'
   });
 
-  // Cuando hay mensajes, detener el estado de enviando datos y deshabilitar el botón de reenvío de correo de verificación
+  // Cuando hay errores, detener el estado de enviando datos y deshabilitar el botón de reenvío de correo de verificación
   useEffect(() => {
     if (messages.success) {
       setIsLoading(false);
-      setIsDisabled(false);
+      setIsDisabled(true);
     }
 
     if (messages.error) setIsLoading(false);
@@ -43,7 +48,8 @@ export default function VerificationNotification() {
         if (seconds <= 0) {
           clearInterval(interval);
           setIsTimeOut(false);
-          setMessages({success: "Revisa tu bandeja de entrada o inténtalo de nuevo."});
+          setIsDisabled(false);
+          setMessages({retry: "Revisa tu bandeja de entrada o pulsa al botón de abajo."});
         }
       }, 1000);
 
@@ -51,42 +57,49 @@ export default function VerificationNotification() {
     }
   }, [isTimeOut]);
 
+  // Reenviar correo de verificación al cargar la página de verificación de correo electrónico.
+  useEffect(() =>{
+    setIsDisabled(true);
+
+    const user = { id, hash, expires, signature };
+    sendVerifyEmail(user, setMessages, setIsTimeOut);
+  }, []);
+
   const handleSubmit = async () => {
-    // Reiniciar estado de errores y activar isLoading
-    setMessages({animated: "Se está reenviando el correo de verificación. Por favor, espera."});
+    setMessages({waiting: "Estamos verificando tu correo electrónico..."});
     setIsLoading(true);
     setIsDisabled(true);
 
-    // Reenviar correo de verificación
-    resendVerificationEmail(setMessages, setIsTimeOut);
-  };
+    const user = { id, hash, expires, signature };
+    sendVerifyEmail(user, setMessages, setIsTimeOut);
+  }
 
   return (
     <div className="relative z-50 w-full min-w-95-93 transition-transform duration-700">
-      <div className='flex'>
+      <div className="flex">
         <img 
           src={cardImage}
           alt="Pionlex Logo"
         />
         <div className="w-full flex justify-center bg-dark-gray-400 py-24">
-          <div className="w-4/5 flex flex-col justify-between">
-            <Title className="dark">VERIFICAR CUENTA</Title>
-
+          <div className="w-3/4 flex flex-col justify-between">
+            <Title className="dark title w-full">VERIFICAR CUENTA</Title>
+            
             <div>
-              {messages.notVerified ? <Alert key={'notVerified'} variant='errorBg' className='text-center'>{messages.notVerified}</Alert> : null}
+              {messages.waiting ? <Alert key={'waiting'} variant='successBg' className='text-center animate-bounce'>{messages.waiting}</Alert> : null}
               {messages.error ? <Alert key={'error'} variant='errorBg' className='text-center'>{messages.error}</Alert> : null}
               {messages.success ? <Alert key={'success'} variant='successBg' className='text-center'>{messages.success}</Alert> : null}
+              {messages.retry ? <Alert key={'retry'} variant='successBg' className='text-center'>{messages.retry}</Alert> : null}
               {messages.animated ? <Alert key={'animated'} variant='successBg' className='text-center mt-8 animate-bounce'>{messages.animated}</Alert> : null}
               {isTimeOut ? <Alert key={'countdown'} variant="successBg" className="text-center mt-4">Tiempo restante: {countdown} s</Alert> : null}
             </div>
 
-            <div className='flex flex-col items-center'>
-              <p className='text-white text-2xl font-semibold mb-4 text-center'>¿No has recibido el correo o el enlace de verificación está expirado?</p>
+            <div className="flex justify-center">
               <Button
                 isLoading={isLoading}
                 disabled={isDisabled}
                 onClick={handleSubmit}>
-                  {isLoading ? "Reenviando..." : "Reenviar correo de verificación"}
+                  {isLoading ? "Confirmando..." : "Confirme su correo electrónico"}
               </Button>
             </div>
           </div>

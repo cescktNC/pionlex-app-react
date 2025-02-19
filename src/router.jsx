@@ -7,6 +7,7 @@ import Register from './views/Register';
 import VerificationNotification from './views/VerificationNotification';
 import ForgotPassword from './views/ForgotPassword';
 import PasswordReset from './views/PasswordReset';
+import VerifyEmail from './views/VerifyEmail';
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: 'verification-notification', // Esta vista se renderiza cuando se accede a la ruta '/auth/verification-notification'
         element: <VerificationNotification />
+      },
+      {
+        path: 'verify-email/:id/:hash', // Esta vista se renderiza cuando se accede a la ruta '/auth/verify-email'
+        element: <VerifyEmail />
       }
     ]
   }
