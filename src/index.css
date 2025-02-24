@@ -9,6 +9,10 @@
   --color-dark-gray-600: #232D37;
   --color-light-gray-400: #F8F9FC;
   --color-light-gray-600: #8391A2;
+  --color-charcoal-50: #FDFBFB; /* Blanco hueso */
+  --color-charcoal-300: #D9D9D9; /* Gris claro */
+  --color-charcoal-700: #596164; /* Gris oscuro */
+  --color-charcoal-950: #29323C; /* Negro oscuro */
 }
 
 @layer utilities {

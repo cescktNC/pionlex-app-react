@@ -114,7 +114,7 @@ export default function Register() {
             />
             {messages.nif ? <Alert key={'nif'} className='pl-2 mb-3 mt-[-1rem]'>{messages.nif}</Alert> : null}
             <Input 
-              className="dark mb-6"
+              className="dark mb-6 dark:border-yellow-500 focus:dark:border-yellow-600"
               name="invitationCode"
               placeholder={fieldLabels.invitationCode}
               dataRef={invitationCodeRef}

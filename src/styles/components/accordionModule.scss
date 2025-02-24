@@ -1,0 +1,61 @@
+// Estilos para el componente de acordeón `<Accordion>` de Material-UI
+// Estructura de componentes de Material-UI:
+
+// <div class="MuiPaper-root">                              // <Accordion>
+//   <h3 class="MuiAccordion-heading">                          // <AccordionSummary>
+//     <button class="MuiButtonBase-root Mui-expanded">
+//       <span class="MuiAccordionSummary-content">
+//         <div class="MuiAccordionSummary-content-custom">            // <div> personalizado
+//           <svg>...</svg> // Icono y texto
+//         </div>                                                      // </div>
+//       </span>
+//       <span class="MuiAccordionSummary-expandIconWrapper">   // Icono de flecha
+//         <svg class="MuiSvgIcon-root">...</svg>
+//       </span>
+//     </button>
+//   </h3>                                                      // </AccordionSummary>
+//   <div class="MuiCollapse-root">
+//     <div class="MuiCollapse-wrapper">
+//       <div class="MuiAccordion-region">                      // <AccordionDetails>
+//         <div>...</div> // Contenido de submodulos
+//       </div>                                                 // </AccordionDetails>
+//     </div>
+//   </div>
+// </div>                                                   // </Accordion>
+
+.MuiPaper-root { // 'div'
+  .MuiAccordion-heading { // 'h3'
+    .MuiButtonBase-root { // 'button'
+      transition: background .3s ease;
+      
+      .MuiAccordionSummary-content { // 'span'
+        margin: 0;
+      }
+    }
+
+    .MuiButtonBase-root:hover {
+      background-color: var(--color-charcoal-300);
+
+      .MuiAccordionSummary-content {
+        .MuiAccordionSummary-content-custom {
+          color: var(--color-charcoal-950);
+
+          svg {
+            color: var(--color-charcoal-950);
+          }
+        }
+      }
+
+      .MuiAccordionSummary-expandIconWrapper {
+        svg {
+          color: var(--color-charcoal-950);
+        }
+      }
+    }
+
+    .MuiButtonBase-root.Mui-expanded { // 'button' expandido
+      min-height: 48px;
+    }
+  }
+}
+
