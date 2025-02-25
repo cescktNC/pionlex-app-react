@@ -1,14 +1,18 @@
+import { useContext } from "react";
 import Module from "./Module";
 import { modules } from "../data/modules";
 import * as Icons from "@fortawesome/free-solid-svg-icons";
+import { ThemeContext } from "../context/ThemeContext";
 
 export default function Sidebar() {
+  const { theme } = useContext(ThemeContext);
+
   return (
     <aside className="w-[30rem] flex h-screen flex-col justify-between bg-charcoal-50 dark:bg-charcoal-950 border-r-1 border-r-gray-300">
       <div className="flex justify-center p-15">
         <img 
           className="w-60"
-          src="img/light-pionlex-logo.svg"
+          src={theme === "dark" ? "img/dark-pionlex-logo.svg" : "img/light-pionlex-logo.svg"}
           alt="Pionlex Logo"
         />
       </div>
@@ -30,7 +34,7 @@ export default function Sidebar() {
         </div>
         <img 
           className="w-30"
-          src="img/light-footer-pionlex-logo.svg"
+          src={theme === "dark" ? "img/dark-footer-pionlex-logo.svg" : "img/light-footer-pionlex-logo.svg"}
           alt="logotipo" />
       </footer>
     </aside>
