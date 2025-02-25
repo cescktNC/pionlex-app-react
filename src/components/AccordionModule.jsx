@@ -1,5 +1,5 @@
 import { PropTypes } from "prop-types";
-import ButtonModule from "./ButtonModule";
+import SubModule from "./SubModule";
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,11 +17,10 @@ export default function AccordionModule({ icon, name, submodules, icons }) {
       </AccordionSummary>
       <AccordionDetails>
         {submodules.map(submodule => (
-          <ButtonModule
+          <SubModule
             key={submodule.id}
             icon={icons[submodule.icon] || Icons.faQuestion}
             name={submodule.name}
-            className="subModuleButton"
           />
         ))}
       </AccordionDetails>
