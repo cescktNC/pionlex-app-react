@@ -5,7 +5,11 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import '../styles/components/accordionModule.scss';
 
-export default function AccordionModule({ icon, name, submodules, icons }) {
+export default function AccordionModule({ icon, name, submodules, icons, idModule, activeIndex, setActiveIndex }) {
+
+  const handleClick = (key) => {
+    setActiveIndex(idModule + "-" + key);
+  }
 
   return (
     <Accordion className="!bg-transparent !shadow-none !static !m-0">
@@ -19,8 +23,10 @@ export default function AccordionModule({ icon, name, submodules, icons }) {
         {submodules.map(submodule => (
           <SubModule
             key={submodule.id}
-            icon={icons[submodule.icon] || Icons.faQuestion}
+            onClick={() => handleClick(submodule.id)}
+            icon={icons[submodule.icon] || icons[faQuestion]}
             name={submodule.name}
+            className={activeIndex === idModule + "-" + submodule.id ? 'active' : ''}
           />
         ))}
       </AccordionDetails>

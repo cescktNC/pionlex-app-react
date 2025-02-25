@@ -1,11 +1,13 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Module from "./Module";
 import { modules } from "../data/modules";
 import * as Icons from "@fortawesome/free-solid-svg-icons";
 import { ThemeContext } from "../context/ThemeContext";
+import '../styles/components/sidebar.scss';
 
 export default function Sidebar() {
   const { theme } = useContext(ThemeContext);
+  const [activeIndex, setActiveIndex] = useState("3-1");
 
   return (
     <aside className="w-[30rem] flex h-screen flex-col justify-between bg-charcoal-50 dark:bg-charcoal-950 border-r-1 border-r-gray-300">
@@ -23,6 +25,8 @@ export default function Sidebar() {
             key={module.id}
             module={module}
             icons={Icons}
+            activeIndex={activeIndex}
+            setActiveIndex={setActiveIndex}
           />
         ))}
       </div>
