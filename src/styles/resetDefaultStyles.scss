@@ -1,10 +1,6 @@
 @use 'variables/typography';
 
 /*** RESETEO ETIQUETAS DE HTML ***/
-/** Reset de Box Model **/
-/* Este código establece 'border-box' como el modelo de caja predeterminado en toda la página, asegurando que las dimensiones 
-de los elementos sean más fáciles de gestionar y consistentes. Por tanto si una caja tiene un width de 100px, y por ejemplo,
-se le agrega un padding de 10px y un border de 5px, el tamaño total seguirá siendo de 100px en lugar de sumarse a 130px*/
 html {
   font-size: 62.5%; /* 10px = 1rem. Mejor usar rem pq se adapta mejor a diferentes resoluciones de mucha densidad de pixeles */
 }

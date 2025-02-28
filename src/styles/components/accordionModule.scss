@@ -59,3 +59,26 @@
   }
 }
 
+.MuiPaper-root.module-active {
+  .MuiAccordion-heading {
+    .MuiButtonBase-root {
+      background-color: var(--color-charcoal-300);
+
+      .MuiAccordionSummary-content {
+        .MuiAccordionSummary-content-custom {
+          color: var(--color-charcoal-950);
+
+          svg {
+            color: var(--color-charcoal-950);
+          }
+        }
+      }
+
+      .MuiAccordionSummary-expandIconWrapper {
+        svg {
+          color: var(--color-charcoal-950);
+        }
+      }
+    }
+  }
+}
