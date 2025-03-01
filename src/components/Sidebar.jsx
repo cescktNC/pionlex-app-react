@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Module from "./sidebar/Module";
 import { modules } from "../data/modules";
 import { ThemeContext } from "../context/ThemeContext";
-import '../styles/components/sidebar.scss';
+import '../styles/components/sidebar/sidebar.scss';
 
 export default function Sidebar({ 
   icons, 

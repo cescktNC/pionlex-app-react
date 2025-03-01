@@ -3,7 +3,7 @@ import SubModule from "./SubModule";
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import '../../styles/components/accordionModule.scss';
+import '../../styles/components/sidebar/accordionModule.scss';
 
 export default function AccordionModule({ 
   onClick,

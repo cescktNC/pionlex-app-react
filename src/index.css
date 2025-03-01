@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 @theme {
+  --font-sans: 'Montserrat', sans-serif;
+
   --color-pionlex-primary-400: #00DBDE;
   --color-pionlex-primary-600: #009B9D;
   --color-pionlex-secondary-400: #FC00FF;

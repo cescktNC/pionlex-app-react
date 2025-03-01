@@ -1,6 +1,6 @@
 import { PropTypes } from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import '../../styles/components/subModule.scss';
+import '../../styles/components/sidebar/subModule.scss';
 
 export default function SubModule({ 
   moduleId, 

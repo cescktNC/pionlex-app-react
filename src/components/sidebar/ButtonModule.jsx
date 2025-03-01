@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { PropTypes } from "prop-types";
 import SubModule from "./SubModule";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import '../../styles/components/buttonModule.scss';
+import '../../styles/components/sidebar/buttonModule.scss';
 
 export default function ButtonModule({ 
   onClick, 
