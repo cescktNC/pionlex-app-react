@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Module from "./sidebar/Module";
 import { modules } from "../data/modules";
 import { ThemeContext } from "../context/ThemeContext";
+import Logo from "./sidebar/Logo";
 import '../styles/components/sidebar/sidebar.scss';
 
 export default function Sidebar({ 
@@ -32,23 +33,7 @@ export default function Sidebar({
          border-r-1 border-r-gray-300 
          transition-all duration-300 ${className}`}
     >
-      {isCollapsed ? (
-          <div className="h-24 flex justify-center p-5">
-            <img 
-              className="w-6"
-              src="img/collapsed-pionlex-logo.svg"
-              alt="Pionlex Logo"
-            />
-          </div>
-        ) : (
-          <div className="h-24 flex justify-center p-5">
-            <img 
-              src={theme === "dark" ? "img/dark-pionlex-logo.svg" : "img/light-pionlex-logo.svg"}
-              alt="Pionlex Logo"
-            />
-          </div>
-        )
-      }
+      <Logo theme={theme} isCollapsed={isCollapsed} />
       
       <div className="flex-1 overflow-auto min-h-0">
         {modules.map( module => (
