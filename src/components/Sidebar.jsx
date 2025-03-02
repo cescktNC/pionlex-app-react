@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Module from "./sidebar/Module";
 import { modules } from "../data/modules";
@@ -9,15 +9,20 @@ export default function Sidebar({
   icons, 
   className, 
   isCollapsed, 
-  activeModuleId, 
-  setActiveModuleId, 
-  showSubmenuIndex, 
-  setShowSubmenuIndex,
-  expandedModuleId,
-  setExpandedModuleId,
 }) {
 
   const { theme } = useContext(ThemeContext);
+
+  const [activeModuleId, setActiveModuleId] = useState("3-1");
+  const [showSubmenuIndex, setShowSubmenuIndex] = useState(activeModuleId);
+  const [expandedModuleId, setExpandedModuleId] = useState(activeModuleId.charAt(0));
+
+  useEffect(() => {
+    if (!isCollapsed) {
+      setShowSubmenuIndex('');
+      setExpandedModuleId(activeModuleId.charAt(0));
+    }
+  }, [isCollapsed]);
 
   return (
     <aside 
@@ -38,7 +43,6 @@ export default function Sidebar({
         ) : (
           <div className="h-24 flex justify-center p-5">
             <img 
-              className=""
               src={theme === "dark" ? "img/dark-pionlex-logo.svg" : "img/light-pionlex-logo.svg"}
               alt="Pionlex Logo"
             />
@@ -84,10 +88,4 @@ Sidebar.propTypes = {
   icons: PropTypes.object.isRequired,
   className: PropTypes.string.isRequired,
   isCollapsed: PropTypes.bool.isRequired,
-  activeModuleId: PropTypes.string.isRequired,
-  setActiveModuleId: PropTypes.func.isRequired,
-  showSubmenuIndex: PropTypes.string.isRequired,
-  setShowSubmenuIndex: PropTypes.func.isRequired,
-  expandedModuleId: PropTypes.string.isRequired,
-  setExpandedModuleId: PropTypes.func.isRequired,
 }
