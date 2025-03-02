@@ -4,6 +4,7 @@ import Module from "./sidebar/Module";
 import { modules } from "../data/modules";
 import { ThemeContext } from "../context/ThemeContext";
 import Logo from "./sidebar/Logo";
+import Footer from "./sidebar/Footer";
 import '../styles/components/sidebar/sidebar.scss';
 
 export default function Sidebar({ 
@@ -53,18 +54,7 @@ export default function Sidebar({
         ))}
       </div>
 
-      {!isCollapsed && (
-        <footer className="flex justify-evenly items-center text-lg font-bold text-charcoal-950 dark:text-charcoal-50 px-5 py-10">
-          <div className="flex flex-col items-end gap-6">
-            <p className="leading-0">&copy; 2025 - Pion Lex</p>
-            <p className="leading-0">Todos los derechos reservados</p>
-          </div>
-          <img 
-            className="w-30"
-            src={theme === "dark" ? "img/dark-footer-pionlex-logo.svg" : "img/light-footer-pionlex-logo.svg"}
-            alt="logotipo" />
-        </footer>
-      )}
+      {!isCollapsed && <Footer theme={theme} />}
     </aside>
   )
 }
