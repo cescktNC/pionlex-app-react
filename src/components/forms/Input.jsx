@@ -4,6 +4,7 @@ export default function Input({
   type = 'text', 
   className = '', 
   rounded = 'full',
+  borderWidth = '2',
   name, 
   placeholder = '', 
   dataRef
@@ -16,14 +17,22 @@ export default function Input({
     none: 'rounded-none',
   };
 
+  const borderStyles = {
+    1: 'border border-solid',
+    2: 'border-2 border-solid',
+    3: 'border-3 border-solid',
+    4: 'border-4 border-solid',
+  };
+
   return (
     <input 
       type={type} 
       className={`
         block w-full p-4
         text-2xl font-medium text-dark-gray-600 dark:text-light-gray-600
-        border-2 border-solid border-light-gray-600
+        border-light-gray-600
         ${roundedStyles[rounded]}
+        ${borderStyles[borderWidth]}
         bg-white dark:bg-dark-gray-600
         transition-colors 
         placeholder:text-light-gray-600 dark:placeholder:text-light-gray-600 
@@ -42,6 +51,7 @@ Input.propTypes = {
   type: PropTypes.string,
   className: PropTypes.string,
   rounded: PropTypes.oneOf(['full', 'left', 'right', 'none']),
+  borderWidth: PropTypes.oneOf(['1', '2', '3', '4']),
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   dataRef: PropTypes.oneOfType([
