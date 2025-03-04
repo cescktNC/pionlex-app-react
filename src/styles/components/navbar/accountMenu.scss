@@ -1,0 +1,31 @@
+.MuiPaper-root {
+  .MuiList-root {
+    padding: 0;
+    min-width: 25rem;
+
+    .MuiButtonBase-root {
+      font-family: var(--font-sans);
+      font-size: 1.3rem;
+
+      .MuiListItemIcon-root {
+        min-width: 0;
+        padding-right: 1rem;
+      }
+    }
+  }
+}
+
+.dark {
+  .MuiList-root {
+    background-color: var(--color-gray-800);
+    border-radius: .4rem;
+
+    .MuiDivider-root {
+      border-color: var(--color-gray-400);
+    }
+
+    .MuiButtonBase-root:hover{
+      background-color: var(--color-gray-700);
+    }
+  }
+}

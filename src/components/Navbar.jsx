@@ -1,12 +1,13 @@
 import { useContext, useRef } from 'react';
-import { useAuth } from '../hooks/useAuth';
 import PropTypes from 'prop-types';
 import BarsButton from './navbar/BarsButton';
 import Input from '../components/forms/Input';
 import Button from '../components/forms/Button';
+import AccountMenu from './navbar/AccountMenu';
 import { ThemeContext } from '../context/ThemeContext';
 
 export default function Navbar({ 
+  user,
   icons, 
   isCollapsed, 
   setIsCollapsed, 
@@ -14,7 +15,6 @@ export default function Navbar({
 
   const searchRef = useRef(null); // Referencia al input de búsqueda
 
-  const { logout } = useAuth({ middleware: 'auth' });
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
@@ -45,20 +45,19 @@ export default function Navbar({
         </div>
       </div>
 
-      <div className='flex gap-4'>
-        <Button onClick={ toggleTheme }>
+      <div className='flex items-center'>
+        <Button className='h-13' onClick={ toggleTheme }>
           { theme === 'dark' ? 'Modo Claro' : 'Modo Oscuro' }
         </Button>
 
-        <Button onClick={ logout }>
-          Cerrar sesión
-        </Button>
+        <AccountMenu user={user} />
       </div>
     </nav>
   )
 }
 
 Navbar.propTypes = {
+  user: PropTypes.object,
   icons: PropTypes.object.isRequired,
   isCollapsed: PropTypes.bool.isRequired,
   setIsCollapsed: PropTypes.func.isRequired,

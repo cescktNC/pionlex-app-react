@@ -21,6 +21,7 @@ export default function Layout() {
       
       <div className='flex-1'>
         <Navbar 
+          user={user}
           icons={Icons}
           isCollapsed={isCollapsed}
           setIsCollapsed={setIsCollapsed}
