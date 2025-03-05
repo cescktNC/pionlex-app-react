@@ -16,6 +16,10 @@
   }
 }
 
+.MuiButtonBase-root.css-14cb4wo-MuiButtonBase-root-MuiIconButton-root:hover {
+  background-color: var(--color-gray-200);
+}
+
 .dark {
   .MuiList-root {
     background-color: var(--color-gray-900);
@@ -27,5 +31,9 @@
     .MuiButtonBase-root:hover{
       background-color: var(--color-gray-800);
     }
+  }
+
+  .MuiButtonBase-root.css-14cb4wo-MuiButtonBase-root-MuiIconButton-root:hover {
+    background-color: var(--color-gray-700);
   }
 }

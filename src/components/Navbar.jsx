@@ -1,10 +1,10 @@
-import { useContext, useRef } from 'react';
+import { useRef } from 'react';
 import PropTypes from 'prop-types';
 import BarsButton from './navbar/BarsButton';
 import Input from '../components/forms/Input';
 import Button from '../components/forms/Button';
+import ThemeToggle from './navbar/ThemeToggle';
 import AccountMenu from './navbar/AccountMenu';
-import { ThemeContext } from '../context/ThemeContext';
 
 export default function Navbar({ 
   user,
@@ -15,16 +15,14 @@ export default function Navbar({
 
   const searchRef = useRef(null); // Referencia al input de búsqueda
 
-  const { theme, toggleTheme } = useContext(ThemeContext);
-
   return (
-    <nav className='h-24 flex justify-between items-center bg-gray-50 dark:bg-gray-900 transition-all duration-300'>
+    <nav className='h-28 flex justify-between items-center bg-gray-50 dark:bg-gray-900 transition-all duration-300'>
       <div className='flex items-center'>
         <BarsButton 
           icons={icons} 
           isCollapsed={isCollapsed} 
           setIsCollapsed={setIsCollapsed}
-          />
+        />
 
         <div className='flex h-13'>
           <Input
@@ -34,23 +32,20 @@ export default function Navbar({
             name='search'
             placeholder='Buscar...'
             dataRef={searchRef}
-            />
+          />
 
-            <Button
-              variant='indigo'
-              rounded='right'
-              onClick={() => console.log(searchRef.current.value)}
-            >
-              Buscar
-            </Button>
+          <Button
+            variant='indigo'
+            rounded='right'
+            onClick={() => console.log(searchRef.current.value)}
+          >
+            Buscar
+          </Button>
         </div>
       </div>
 
-      <div className='flex items-center'>
-        <Button className='h-13' onClick={ toggleTheme }>
-          { theme === 'dark' ? 'Modo Claro' : 'Modo Oscuro' }
-        </Button>
-
+      <div className='h-full flex items-center gap-5 pr-5'>
+        <ThemeToggle />
         <AccountMenu user={user} />
       </div>
     </nav>
