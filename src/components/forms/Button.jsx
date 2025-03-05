@@ -18,6 +18,7 @@ export default function Button({
     primary: 'text-dark-gray-600 bg-pionlex-primary-400 hover:bg-pionlex-primary-600 disabled:hover:bg-pionlex-primary-400',
     secondary: 'text-dark-gray-600 bg-slate-400 hover:bg-slate-500 disabled:hover:bg-slate-400',
     warning: 'text-dark-gray-600 bg-yellow-400 hover:bg-yellow-600 disabled:hover:bg-yellow-400',
+    indigo: 'text-white bg-indigo-600 hover:bg-indigo-500 disabled:hover:bg-indigo-600 dark:bg-indigo-500 dark:hover:bg-indigo-400 dark:disabled:hover:bg-indigo-500',
   };
 
   const roundedStyles = {
@@ -53,7 +54,7 @@ Button.propTypes = {
   children: PropTypes.node.isRequired,
   type: PropTypes.oneOf(['button', 'submit', 'reset']),
   className: PropTypes.string,
-  variant: PropTypes.oneOf(['primary', 'secondary', 'warning']),
+  variant: PropTypes.oneOf(['primary', 'secondary', 'warning', 'indigo']),
   rounded: PropTypes.oneOf(['full', 'left', 'right', 'none']),
   disabled: PropTypes.bool,
   loading: PropTypes.bool,

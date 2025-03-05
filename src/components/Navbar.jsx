@@ -18,7 +18,7 @@ export default function Navbar({
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
-    <nav className='h-24 flex justify-between items-center bg-charcoal-50 dark:bg-charcoal-950 transition-all duration-300'>
+    <nav className='h-24 flex justify-between items-center bg-gray-50 dark:bg-gray-900 transition-all duration-300'>
       <div className='flex items-center'>
         <BarsButton 
           icons={icons} 
@@ -37,6 +37,7 @@ export default function Navbar({
             />
 
             <Button
+              variant='indigo'
               rounded='right'
               onClick={() => console.log(searchRef.current.value)}
             >

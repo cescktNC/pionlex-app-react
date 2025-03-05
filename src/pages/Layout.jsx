@@ -19,7 +19,7 @@ export default function Layout() {
         isCollapsed={isCollapsed}
         />
       
-      <div className='flex-1'>
+      <div className='flex flex-col flex-1 min-h-screen'>
         <Navbar 
           user={user}
           icons={Icons}
@@ -27,7 +27,9 @@ export default function Layout() {
           setIsCollapsed={setIsCollapsed}
           />
 
-        <Outlet /> {/* Aquí se renderizan las vistas hijas */}
+        <main className="flex-1 bg-white dark:bg-gray-800 p-6">
+          <Outlet /> {/* Aquí se renderizan las vistas hijas */}
+        </main>
       </div>
     </div>
   )

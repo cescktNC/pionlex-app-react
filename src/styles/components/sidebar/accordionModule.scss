@@ -34,21 +34,21 @@
     }
 
     .MuiButtonBase-root:hover {
-      background-color: var(--color-charcoal-300);
+      background-color: var(--color-indigo-400);
 
       .MuiAccordionSummary-content {
         .MuiAccordionSummary-content-custom {
-          color: var(--color-charcoal-950);
+          color: var(--color-white);
 
           svg {
-            color: var(--color-charcoal-950);
+            color: var(--color-white);
           }
         }
       }
 
       .MuiAccordionSummary-expandIconWrapper {
         svg {
-          color: var(--color-charcoal-950);
+          color: var(--color-white);
         }
       }
     }
@@ -62,22 +62,32 @@
 .MuiPaper-root.module-active {
   .MuiAccordion-heading {
     .MuiButtonBase-root {
-      background-color: var(--color-charcoal-300);
+      background-color: var(--color-indigo-600);
 
       .MuiAccordionSummary-content {
         .MuiAccordionSummary-content-custom {
-          color: var(--color-charcoal-950);
+          color: var(--color-white);
 
           svg {
-            color: var(--color-charcoal-950);
+            color: var(--color-white);
           }
         }
       }
 
       .MuiAccordionSummary-expandIconWrapper {
         svg {
-          color: var(--color-charcoal-950);
+          color: var(--color-white);
         }
+      }
+    }
+  }
+}
+
+.dark {
+  .MuiPaper-root.module-active {
+    .MuiAccordion-heading {
+      .MuiButtonBase-root {
+        background-color: var(--color-indigo-500);
       }
     }
   }

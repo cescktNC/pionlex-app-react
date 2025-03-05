@@ -30,7 +30,7 @@ export default function Sidebar({
     <aside 
       className={
         `h-screen flex flex-col justify-between 
-         bg-charcoal-50 dark:bg-charcoal-950 
+         bg-gray-50 dark:bg-gray-900 
          border-r-1 border-r-gray-300 
          transition-all duration-300 ${className}`}
     >

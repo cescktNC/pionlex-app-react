@@ -74,31 +74,31 @@ export default function AccountMenu( { user } ) {
             >
             {name ? name.charAt(0) : <PersonIcon fontSize="large" />}
           </Avatar>
-          <div className="flex flex-col pl-6 text-gray-900 dark:text-white">
-            <span className="text-2xl font-bold">{`${name ?? "Usuario"} ${lastname ?? ""}`}</span>
-            <span className="text-xl font-normal">{`${position ?? "Cargo no definido"}`}</span>
+          <div className="flex flex-col pl-6">
+            <span className="text-2xl font-bold text-gray-900 dark:text-white">{`${name ?? "Usuario"} ${lastname ?? ""}`}</span>
+            <span className="text-xl font-normal text-gray-700 dark:text-gray-300">{`${position ?? "Cargo no definido"}`}</span>
           </div>
         </div>
         <Divider />
 
-        <div className="py-4 text-gray-900 dark:text-white">
+        <div className="py-4 text-gray-700 dark:text-gray-300">
           <MenuItem onClick={() => console.log("Mi Cuenta")}>
             <ListItemIcon>
-              <PersonIcon fontSize="medium" className="text-gray-900 dark:text-white" />
+              <PersonIcon fontSize="medium" className="text-gray-700 dark:text-gray-300" />
             </ListItemIcon>
             Mi Cuenta
           </MenuItem>
           
           <MenuItem onClick={() => console.log("Configuración")}>
             <ListItemIcon>
-              <SettingsIcon fontSize="medium" className="text-gray-900 dark:text-white" />
+              <SettingsIcon fontSize="medium" className="text-gray-700 dark:text-gray-300" />
             </ListItemIcon>
             Configuración
           </MenuItem>
           
           <MenuItem onClick={logout}>
             <ListItemIcon>
-              <Logout fontSize="medium" className="text-gray-900 dark:text-white" />
+              <Logout fontSize="medium" className="text-gray-700 dark:text-gray-300" />
             </ListItemIcon>
             Cerrar sesión
           </MenuItem>

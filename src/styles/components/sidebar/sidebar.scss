@@ -1,8 +1,14 @@
 .active {
-  color: var(--color-charcoal-950);
-  background: var(--color-charcoal-300);
+  color: var(--color-white);
+  background: var(--color-indigo-600);
 
   svg {
-    color: var(--color-charcoal-950);
+    color: var(--color-white);
+  }
+}
+
+.dark {
+  .active {
+    background: var(--color-indigo-500);
   }
 }

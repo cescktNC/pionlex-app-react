@@ -26,17 +26,17 @@ export default function AccordionModule({
         onClick={onClick}
         expandIcon={
           <ExpandMoreIcon 
-            className="text-charcoal-950 dark:text-charcoal-50" 
+            className="text-gray-900 dark:text-white" 
             fontSize="large" 
           />
         }
       >
         <div className='
           w-full flex items-center gap-2 
-          font-bold text-[1.7rem] text-charcoal-950 dark:text-charcoal-50 
+          font-bold text-[1.7rem] text-gray-900 dark:text-white 
           MuiAccordionSummary-content-custom'
         >
-          <FontAwesomeIcon icon={icon} className="w-12 text-[1.7rem] text-charcoal-950 dark:text-charcoal-50" />
+          <FontAwesomeIcon icon={icon} className="w-12 text-[1.7rem] text-gray-900 dark:text-white" />
           {name}
         </div>
       </AccordionSummary>

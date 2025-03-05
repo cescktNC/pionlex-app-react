@@ -15,7 +15,7 @@ export default function BarsButton({ icons, isCollapsed, setIsCollapsed }) {
       <FontAwesomeIcon 
         onClick={handleClick} 
         icon={icons.faBars} 
-        className="w-12 text-[2.5rem] text-charcoal-950 dark:text-charcoal-50 cursor-pointer" 
+        className="w-12 text-[2.5rem] text-gray-900 dark:text-white cursor-pointer" 
         />
     </button>
   )

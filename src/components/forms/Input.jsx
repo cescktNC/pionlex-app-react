@@ -18,25 +18,20 @@ export default function Input({
   };
 
   const borderStyles = {
-    1: 'border border-solid',
-    2: 'border-2 border-solid',
-    3: 'border-3 border-solid',
-    4: 'border-4 border-solid',
+    1: 'outline-1 -outline-offset-1',
+    2: 'outline-2 -outline-offset-2',
   };
 
   return (
     <input 
       type={type} 
       className={`
-        block w-full p-4
-        text-2xl font-medium text-dark-gray-600 dark:text-light-gray-600
-        border-light-gray-600
+        block w-full p-4 bg-white dark:bg-gray-800
+        text-2xl font-medium text-gray-900 dark:text-white placeholder:text-gray-400
+        ${borderStyles[borderWidth]} outline-gray-300 dark:outline-gray-700
+        focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:focus:outline-indigo-500
         ${roundedStyles[rounded]}
-        ${borderStyles[borderWidth]}
-        bg-white dark:bg-dark-gray-600
-        transition-colors 
-        placeholder:text-light-gray-600 dark:placeholder:text-light-gray-600 
-        focus:outline-none focus:border-dark-gray-400 focus:dark:border-light-gray-400 duration-300
+        custom-input
         ${className}`} 
       name={name} 
       placeholder={placeholder} 
@@ -51,7 +46,7 @@ Input.propTypes = {
   type: PropTypes.string,
   className: PropTypes.string,
   rounded: PropTypes.oneOf(['full', 'left', 'right', 'none']),
-  borderWidth: PropTypes.oneOf(['1', '2', '3', '4']),
+  borderWidth: PropTypes.oneOf(['1', '2']),
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   dataRef: PropTypes.oneOfType([

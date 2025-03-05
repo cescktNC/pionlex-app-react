@@ -37,26 +37,29 @@ export default function ButtonModule({
         type="button" 
         onClick={onClick}
         className={`w-full h-[4.8rem] flex items-center gap-2 px-[1.6rem]
-                  font-bold text-[1.7rem] text-charcoal-950 dark:text-charcoal-50 
-                  dark:hover:text-charcoal-950 hover:bg-charcoal-300 
+                  font-bold text-[1.7rem] text-gray-900 dark:text-white 
+                  hover:text-white hover:bg-indigo-400
                   cursor-pointer button-module ${className}`}>	
-          <FontAwesomeIcon icon={icon} className="w-12 text-[1.7rem] text-charcoal-950 dark:text-charcoal-50" />
+          <FontAwesomeIcon icon={icon} className="w-12 text-[1.7rem] text-gray-900 dark:text-white" />
           {!isCollapsed && <span>{name}</span>}
       </button>
 
       {isCollapsed && (
         <div
-          className={`fixed left-[5rem] top-0 min-w-[27rem] h-[4.8rem] opacity-0 flex flex-col justify-center p-5
-                   font-bold text-[1.7rem] text-charcoal-950
-                   bg-charcoal-300 
-                   ${showSubmenuIndex === moduleId && submodules ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
-                   whitespace-nowrap collapsed-module`}
+          className={`fixed left-[5rem] top-0 min-w-[27rem] h-[4.8rem] opacity-0 flex flex-col justify-center 
+                      border-b-1 border-b-gray-300 dark:border-b-gray-500
+                      font-bold text-[1.7rem] text-gray-900 dark:text-white
+                    bg-gray-50 dark:bg-gray-900
+                      ${showSubmenuIndex === moduleId && submodules ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
+                      whitespace-nowrap collapsed-module`}
           style={{ top: `${modulePositionTop}px` }}
         >
-          <span>{name}</span>
+          <span className='px-8'>{name}</span>
 
           <div
-            className='fixed min-w-[27rem] left-[5rem] top-0 dark:bg-charcoal-950 shadow-md collapsed-submodule'
+            className='fixed min-w-[27rem] left-[5rem] top-0
+                     bg-gray-50 dark:bg-gray-900 
+                     shadow-md collapsed-submodule'
             style={{ top: `${modulePositionTop + 48}px` }}
           >
             {submodules && submodules.length > 0 && (
