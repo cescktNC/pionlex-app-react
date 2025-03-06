@@ -70,6 +70,7 @@ export default function ButtonModule({
                   submoduleId={submodule.id.toString()}
                   icon={icons[submodule.icon] || icons[faQuestion]}
                   name={submodule.name}
+                  path={submodule.path}
                   className={activeModuleId === `${moduleId}-${submodule.id}` ? 'active' : ''}
                   setActiveModuleId={setActiveModuleId}
                   setExpandedModuleId={setExpandedModuleId}

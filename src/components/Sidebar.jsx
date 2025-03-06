@@ -15,7 +15,7 @@ export default function Sidebar({
 
   const { theme } = useContext(ThemeContext);
 
-  const [activeModuleId, setActiveModuleId] = useState("3-1");
+  const [activeModuleId, setActiveModuleId] = useState(localStorage.getItem('activeModuleId') || "3-1");
   const [showSubmenuIndex, setShowSubmenuIndex] = useState(activeModuleId);
   const [expandedModuleId, setExpandedModuleId] = useState(activeModuleId.charAt(0));
 
@@ -25,6 +25,11 @@ export default function Sidebar({
       setExpandedModuleId(activeModuleId.charAt(0));
     }
   }, [isCollapsed]);
+
+  // Guardar el módulo activo en el localStorage
+  useEffect(() => {
+    localStorage.setItem('activeModuleId', activeModuleId);
+  }, [activeModuleId]);
 
   return (
     <aside 

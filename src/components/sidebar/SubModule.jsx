@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { PropTypes } from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import '../../styles/components/sidebar/subModule.scss';
@@ -7,10 +8,12 @@ export default function SubModule({
   submoduleId, 
   icon, 
   name, 
+  path, 
   className, 
   setActiveModuleId,
   setExpandedModuleId,
 }) {
+  const navigate = useNavigate(); // Hook de navegación
 
   const handleClick = () => {
     setActiveModuleId(moduleId + "-" + submoduleId);
@@ -18,6 +21,8 @@ export default function SubModule({
     if (setExpandedModuleId) {
       setExpandedModuleId(moduleId);
     }
+
+    navigate(path);
   }
 
   return (
@@ -39,6 +44,7 @@ SubModule.propTypes = {
   submoduleId: PropTypes.string.isRequired,
   icon: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
   className: PropTypes.string,
   setActiveModuleId: PropTypes.func.isRequired,
   setExpandedModuleId: PropTypes.func,

@@ -8,6 +8,8 @@ import VerificationNotification from './views/VerificationNotification';
 import ForgotPassword from './views/ForgotPassword';
 import PasswordReset from './views/PasswordReset';
 import VerifyEmail from './views/VerifyEmail';
+import Clients from './views/modules/crm/clients';
+import Users from './views/modules/crm/Users';
 
 const router = createBrowserRouter([
   {
@@ -17,7 +19,36 @@ const router = createBrowserRouter([
       {
         index: true, // Esta vista se renderiza por defecto cuando se accede a la ruta '/'
         element: <MainContent />
-      }
+      },
+      {
+        path: 'dashboard', // Esta vista se renderiza cuando se accede a la ruta '/dashboard'
+      },
+      {
+        path: 'clients', // Esta vista se renderiza cuando se accede a la ruta '/clients'
+        element: <Clients />
+      },
+      {
+        path: 'users', // Esta vista se renderiza cuando se accede a la ruta '/users'
+        element: <Users />
+      },
+      {
+        path: 'judicial-processes', // Esta vista se renderiza cuando se accede a la ruta '/judicial-processes'
+      },
+      {
+        path: 'document-templates', // Esta vista se renderiza cuando se accede a la ruta '/document-templates'
+      },
+      {
+        path: 'digital-signature', // Esta vista se renderiza cuando se accede a la ruta '/digital-signature'
+      },
+      {
+        path: 'incidents', // Esta vista se renderiza cuando se accede a la ruta '/incidents'
+      },
+      {
+        path: 'emails', // Esta vista se renderiza cuando se accede a la ruta '/emails'
+      },
+      {
+        path: 'payments', // Esta vista se renderiza cuando se accede a la ruta '/payments'
+      },
     ]
   },
   {
