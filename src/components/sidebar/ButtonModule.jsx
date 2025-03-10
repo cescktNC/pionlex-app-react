@@ -36,12 +36,12 @@ export default function ButtonModule({
         ref={buttonRef}
         type="button" 
         onClick={onClick}
-        className={`w-full h-[4.8rem] flex items-center gap-2 px-[1.6rem]
-                  font-bold text-[1.7rem] text-gray-900 dark:text-white 
+        className={`w-full h-[4.8rem] flex items-center gap-2 ${isCollapsed ? '' : 'px-[1.6rem]' } 
+                  font-bold text-[1.7rem] text-start leading-8 text-gray-900 dark:text-white 
                   hover:text-white hover:bg-indigo-400
                   cursor-pointer button-module ${className}`}>	
-          <FontAwesomeIcon icon={icon} className="w-12 text-[1.7rem] text-gray-900 dark:text-white" />
-          {!isCollapsed && <span>{name}</span>}
+          <FontAwesomeIcon icon={icon} className={`${isCollapsed ? 'w-full' : 'min-w-12'} text-[1.7rem] text-gray-900 dark:text-white`} />
+          {!isCollapsed && <span className='truncate'>{name}</span>}
       </button>
 
       {isCollapsed && (

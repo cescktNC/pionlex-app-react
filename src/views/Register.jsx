@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useValidation } from "../hooks/useValidation";
 import Title from '../components/forms/Title';
 import Input from '../components/forms/Input';
-import CheckBox from '../components/forms/CheckBox';
+import CheckBoxLabel from '../components/forms/CheckBoxLabel';
 import Button from '../components/forms/Button';
 import Alert from "../components/forms/Alert";
 import { fieldLabels } from "../utils/errorConstants";
@@ -159,12 +159,12 @@ export default function Register() {
             />
             {messages.password_confirmation ? <Alert key={'password_confirmation'} className='pl-2 mb-3 mt-[-.4rem]'>{messages.password_confirmation}</Alert> : null}
             <div className="flex w-full">
-              <CheckBox 
+              <CheckBoxLabel 
                 name="policyTerms" 
                 className="dark"
                 dataRef={policyTermsRef}>
                   Acepto la&nbsp;
-              </CheckBox>
+              </CheckBoxLabel>
               <nav className='font-medium text-xl text-light-gray-600 cursor-pointer hover:underline hover:underline-offset-1'>
                 <Link to={''}>
                   Política de Privacidad y Condiciones de Uso

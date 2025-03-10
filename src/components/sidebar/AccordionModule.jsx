@@ -32,12 +32,12 @@ export default function AccordionModule({
         }
       >
         <div className='
-          w-full flex items-center gap-2 
-          font-bold text-[1.7rem] text-gray-900 dark:text-white 
+          max-w-[24rem] flex items-center gap-2 
+          font-bold text-[1.7rem] text-start leading-8 text-gray-900 dark:text-white 
           MuiAccordionSummary-content-custom'
         >
-          <FontAwesomeIcon icon={icon} className="w-12 text-[1.7rem] text-gray-900 dark:text-white" />
-          {name}
+          <FontAwesomeIcon icon={icon} className="min-w-12 text-[1.7rem] text-gray-900 dark:text-white" />
+          <span className='truncate'>{name}</span>
         </div>
       </AccordionSummary>
       <AccordionDetails>
