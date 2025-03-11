@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import useDynamicPageSize from "../../../hooks/useDynamicPageSize";
 import Button from "../../../components/forms/Button";
 import Table from "../../../components/tables/Table";
 import CheckBox from "../../../components/forms/CheckBox";
@@ -25,7 +26,9 @@ const getStatusName = (id) => statuses.find(status => status.id === id);
 
 export default function Clients() {
   const checkBoxRefs = useRef({});
+
   const [selectedIds, setSelectedIds] = useState([]);
+  const { containerRef, titleRef, descriptionRef, buttonRef, pageSize } = useDynamicPageSize();
 
   const toggleSelectAll = () => {
     const allChecked = checkBoxRefs.current.selectAll.checked;
@@ -37,6 +40,8 @@ export default function Clients() {
       return prevSelectedIds.includes(id) ? prevSelectedIds.filter(selectedId => selectedId !== id) : [...prevSelectedIds, id]
     });
   };
+
+  const paginatedClients = clients.slice(0, pageSize); // Filtrar los clientes a mostrar en la tabla
 
   const columns = [
     {
@@ -129,13 +134,13 @@ export default function Clients() {
   ];
 
   return (
-    <>
-      <h1 className="font-bold dark:text-white">Clientes</h1>
-      <p className="text-2xl font-medium text-gray-700 dark:text-gray-300 pb-5">Listado de clientes asignados a ti incluyendo su nombre, teléfono, email, población y fecha de alta</p>
-      <div className="flex justify-end">
+    <div ref={containerRef} className="h-full">
+      <h1 ref={titleRef} className="font-bold dark:text-white">Clientes</h1>
+      <p ref={descriptionRef} className="text-2xl font-medium text-gray-700 dark:text-gray-300 pb-5">Listado de clientes asignados a ti incluyendo su nombre, teléfono, email, población y fecha de alta</p>
+      <div ref={buttonRef} className="flex justify-end">
         <Button className="mb-10" variant="indigo">Nuevo Cliente</Button>
       </div>
-      <Table columns={columns} data={clients} />
-    </>
+      <Table columns={columns} data={paginatedClients} />
+    </div>
   )
 }
