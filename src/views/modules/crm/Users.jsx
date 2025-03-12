@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import useDynamicPageSize from "../../../hooks/useDynamicPageSize";
 import Button from "../../../components/forms/Button";
 import Table from "../../../components/tables/Table";
@@ -12,9 +12,14 @@ const getLawOfficeName = (id) => law_offices.find(law_office => law_office.id ==
 
 export default function Users() {
   const checkBoxRefs = useRef({});
+  const titleRef = useRef(null);
+  const descriptionRef = useRef(null);
+  const buttonRef = useRef(null);
+  const tableRef = useRef(null);
 
   const [selectedIds, setSelectedIds] = useState([]);
-  const { containerRef, titleRef, descriptionRef, buttonRef, pageSize } = useDynamicPageSize();
+  const [offsetTop, setOffsetTop] = useState(0);
+  const [rowHeight, setRowHeight] = useState(0);
 
   const toggleSelectAll = () => {
     const allChecked = checkBoxRefs.current.selectAll.checked;
@@ -27,6 +32,23 @@ export default function Users() {
     });
   };
 
+  useEffect(() => {
+    if (titleRef.current && descriptionRef.current && buttonRef.current) {
+      const titleHeight = titleRef.current.clientHeight;
+      const descriptionHeight = descriptionRef.current.clientHeight;
+      const buttonHeight = buttonRef.current.clientHeight;
+      if (titleHeight && descriptionHeight && buttonHeight)
+        setOffsetTop(titleHeight + descriptionHeight + buttonHeight);
+    }
+
+    if (tableRef.current) {
+      const firstRow = tableRef.current.querySelector('tbody tr');
+      if (firstRow) 
+        setRowHeight(firstRow.clientHeight);
+    }
+  }, []);
+
+  const { containerRef, pageSize } = useDynamicPageSize({ rowHeight, offsetTop });
   const paginatedUsers = users.slice(0, pageSize); // Filtrar los usuarios a mostrar en la tabla
 
   const columns = [
@@ -111,7 +133,7 @@ export default function Users() {
       <div ref={buttonRef} className="flex justify-end">
         <Button className="mb-10" variant="indigo">Nuevo Usuario</Button>
       </div>
-      <Table columns={columns} data={paginatedUsers} />
+      <Table ref={tableRef} columns={columns} data={paginatedUsers} />
     </div>
   )
 }

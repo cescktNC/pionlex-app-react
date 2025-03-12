@@ -1,15 +1,17 @@
 import PropTypes from 'prop-types';
+import { forwardRef } from "react";
 
-export default function Table({ columns, data }) {
+const Table = forwardRef(({ columns, data }, ref) => {
+// export default function Table({ dataRef, columns, data }) {
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full">
+      <table ref={ref} className="min-w-full">
         <TableHead columns={columns} />
         <TableBody columns={columns} data={data} />
       </table>
     </div>
   )
-}
+});
 
 function TableHead({ columns }) {
   return (
@@ -55,3 +57,5 @@ Table.propTypes = {
   columns: PropTypes.array.isRequired,
   data: PropTypes.array.isRequired,
 }
+
+export default Table;

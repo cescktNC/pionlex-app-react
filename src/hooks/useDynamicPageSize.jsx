@@ -1,19 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
 
-export default function useDynamicPageSize(rowHeight = 60) {
+export default function useDynamicPageSize({
+  rowHeight = 65,
+  offsetTop = 0,
+}) {
   const containerRef = useRef(null);
-  const titleRef = useRef(null);
-  const descriptionRef = useRef(null);
-  const buttonRef = useRef(null);
 
   const [pageSize, setPageSize] = useState(10);
 
   useEffect(() => {
     const updatePageSize = () => {
       if (containerRef.current) {
-        const containerHeight = containerRef.current.clientHeight - titleRef.current.clientHeight - descriptionRef.current.clientHeight - buttonRef.current.clientHeight - 20; // Altura del contenedor
+        const containerHeight = containerRef.current.clientHeight - offsetTop; // Altura del contenedor
         const numberOfRows = Math.floor(containerHeight / rowHeight); // Número de filas que caben en el contenedor
-        setPageSize(numberOfRows);
+        numberOfRows <= 3 ? setPageSize(1) : setPageSize(numberOfRows - 2); // Actualizar el número de filas a mostrar para dejar espacio para el paginador
       }
     };
 
@@ -25,5 +25,5 @@ export default function useDynamicPageSize(rowHeight = 60) {
     return () => resizeObserver.disconnect();
   }, [rowHeight]);
 
-  return { containerRef, titleRef, descriptionRef, buttonRef, pageSize };
+  return { containerRef, pageSize };
 }
